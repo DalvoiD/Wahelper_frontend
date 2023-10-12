@@ -1,14 +1,7 @@
 import './App.css';
-import { useQuery, gql} from "@apollo/client";
+import { useQuery } from "@apollo/client";
 
-const GET_FRACTIONS = gql`
-  query Fractions {
-    fractions {
-        id
-        name
-    }
-  }
-`;
+import { GET_FRACTIONS } from './query/fractions'
 
 function DisplayFractions() {
   const { loading, error, data } = useQuery(GET_FRACTIONS);
@@ -16,16 +9,20 @@ function DisplayFractions() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message}</p>;
 
-  return data.fractions.map(({ id, name }) => (
+  const fractions  = data.fractions.map(({ id, name }) => (
      <div key={id}>
        <h3>{name}</h3>
      </div>
   ));
+
+    return <div >
+        {fractions}
+    </div>
 }
 
 function App() {
   return (
-      <div>
+      <div className='container'>
         <h2>Fractions</h2>
         <br/>
         <DisplayFractions/>
